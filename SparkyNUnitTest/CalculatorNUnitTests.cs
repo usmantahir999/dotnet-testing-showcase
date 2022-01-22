@@ -71,5 +71,21 @@ namespace SparkyNUnitTest
             return calculator.IsEvenNumber(number);
 
         }
+
+        [Test]
+        [TestCase(5.4,10.5)]//15.9
+        [TestCase(5.43,10.53)]//15.93
+        [TestCase(5.49,10.59)]//16.08
+        public void AddNumber_InputTwoDouble_GetCorrectAddition(double ist, double second)
+        {
+            //Arrange
+            var calculator = new Calculator();
+            //Act
+            var result = calculator.AddDoubleNumbers(ist, second);
+            //Assert
+            //Delta .2 means relative result
+            Assert.AreEqual(15.9, result,.2);
+        }
+
     }
 }

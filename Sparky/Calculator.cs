@@ -18,5 +18,10 @@ namespace Sparky
         {
             return number % 2 == 0;
         }
+
+        public double AddDoubleNumbers(double ist, double second)
+        {
+            return ist + second;
+        }
     }
 }
