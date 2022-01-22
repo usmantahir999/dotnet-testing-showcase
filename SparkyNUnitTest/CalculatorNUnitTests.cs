@@ -61,8 +61,8 @@ namespace SparkyNUnitTest
         }
 
         [Test]
-        [TestCase(2, ExpectedResult =true)]
-        [TestCase(5, ExpectedResult =false)]
+        [TestCase(2, ExpectedResult = true)]
+        [TestCase(5, ExpectedResult = false)]
         public bool IsEvenChecker_InputOEvenInt_ReturnTrueIfOdd(int number)
         {
             //Arrange
@@ -73,9 +73,9 @@ namespace SparkyNUnitTest
         }
 
         [Test]
-        [TestCase(5.4,10.5)]//15.9
-        [TestCase(5.43,10.53)]//15.93
-        [TestCase(5.49,10.59)]//16.08
+        [TestCase(5.4, 10.5)]//15.9
+        [TestCase(5.43, 10.53)]//15.93
+        [TestCase(5.49, 10.59)]//16.08
         public void AddNumber_InputTwoDouble_GetCorrectAddition(double ist, double second)
         {
             //Arrange
@@ -84,8 +84,24 @@ namespace SparkyNUnitTest
             var result = calculator.AddDoubleNumbers(ist, second);
             //Assert
             //Delta .2 means relative result
-            Assert.AreEqual(15.9, result,.2);
+            Assert.AreEqual(15.9, result, .2);
         }
+
+        [Test]
+        public void GetOddRange_InputMinMaxRange_ReturnValidOddNumberRange()
+        {
+            //Arrange
+            var calculator = new Calculator();
+            List<int> OddExpectedRange = new List<int>() { 5, 7, 9 };
+            //Act
+            List<int> expectedResult = calculator.GetOddRange(5,10);
+            //Assert
+            Assert.That(expectedResult, Is.EquivalentTo(OddExpectedRange));
+
+           
+        }
+
+
 
     }
 }
