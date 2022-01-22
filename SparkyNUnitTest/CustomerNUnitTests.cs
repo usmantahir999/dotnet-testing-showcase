@@ -20,5 +20,15 @@ namespace SparkyNUnitTest
             var result = customer.GreetAndCombineNames("Ben","Spark");
             Assert.That(result, Is.EqualTo("Hello Ben Spark"));
         }
+
+        [Test]
+        public void IsHelloExist_InputFirstAndLastName_ReturnsTrue()
+        {
+            //Arrange
+            var customer = new Customer();
+            //Act
+            var result = customer.GreetAndCombineNames("Ben", "Spark");
+            Assert.That(result, Does.Contain("Hello"));
+        }
     }
 }
