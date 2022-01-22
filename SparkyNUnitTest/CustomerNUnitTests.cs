@@ -30,5 +30,26 @@ namespace SparkyNUnitTest
             var result = customer.GreetAndCombineNames("Ben", "Spark");
             Assert.That(result, Does.Contain("Hello"));
         }
+
+        [Test]
+        public void IsGreetNull_InputNull_ReturnsNull()
+        {
+            //Arrange
+            var customer = new Customer();
+            //Act
+            //Assert
+            Assert.IsNull(customer.GreetMessage);
+        }
+
+        [Test]
+        public void IsGreetNotNull_InputFirstAndLastName_ReturnsNotNull()
+        {
+            //Arrange
+            var customer = new Customer();
+            //Act
+            customer.GreetAndCombineNames("Ben", "Spark");
+            //Assert
+            Assert.IsNotNull(customer.GreetMessage);
+        }
     }
 }
