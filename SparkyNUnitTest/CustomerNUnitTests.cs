@@ -65,5 +65,13 @@ namespace SparkyNUnitTest
             });
            
         }
+
+        [Test]
+        public void GreetChecker_EmptyFirstName_ThrowsException()
+        {
+            var exceptionDetails=Assert.Throws<ArgumentException>(()=>customer.GreetAndCombineNames("", "Spark"));
+            Assert.AreEqual("Empty first name", exceptionDetails.Message);
+
+        }
     }
 }
