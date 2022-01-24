@@ -51,5 +51,19 @@ namespace SparkyNUnitTest
             //Assert
             Assert.IsNotNull(customer.GreetMessage);
         }
+
+        [Test]
+        public void DiscountChecker_DefaultCustomer_ReturnsDiscountInRange()
+        {
+            //Act
+            var result=customer.Discount;
+            //Assert
+            //Assert.multiple used to run multiple assert statements in exception cases
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.InRange(10, 25));
+            });
+           
+        }
     }
 }
