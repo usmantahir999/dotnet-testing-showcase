@@ -32,6 +32,8 @@ namespace SparkyNUnitTest
             //Assert
             //Assert classic model
             Assert.True(result);
+            //Check object type
+            Assert.That(result, Is.TypeOf<bool>());
         }
 
         [Test]
