@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Moq;
+using NUnit.Framework;
 using Sparky;
 using System;
 using System.Collections.Generic;
@@ -11,20 +12,31 @@ namespace SparkyNUnitTest
     [TestFixture]
     class BankAccountNUnitTests
     {
-        private BankAccount bankAccount;
+        private BankAccount account;
         [SetUp]
         public void Setup()
         {
             //Not unit test, it is an intgration test, unit test only deal with single class : e.g::: bankAccount = new BankAccount(new LogBook());
             //bankAccount = new BankAccount(new LogBook());
+            
+        }
+
+        [Test]
+        public void BankDepositLogFakker_Add100_ReturnTrue()
+        {
             //in real project faker class can not be implemented, because it takes alot of time and too much dummy code
-            bankAccount = new BankAccount(new LogFakker());
+            BankAccount bankAccount = new BankAccount(new LogFakker());
+            var result=bankAccount.Deposit(100);
+            Assert.IsTrue(result);
+            Assert.That(bankAccount.GetBalance(), Is.EqualTo(100));
         }
 
         [Test]
         public void BankDeposit_Add100_ReturnTrue()
         {
-            var result=bankAccount.Deposit(100);
+            var logMoq = new Mock<ILogBook>();
+            BankAccount bankAccount = new BankAccount(logMoq.Object);
+            var result = bankAccount.Deposit(100);
             Assert.IsTrue(result);
             Assert.That(bankAccount.GetBalance(), Is.EqualTo(100));
         }
