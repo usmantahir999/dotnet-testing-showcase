@@ -10,6 +10,11 @@ namespace Sparky
     {
         public string GreetMessage = null;
         public int Discount = 15;
+        public bool IsPlatium { get; set; }
+        public Customer()
+        {
+            IsPlatium = false;
+        }
         public string GreetAndCombineNames(string firstName, string lastName)
         {
             if (string.IsNullOrWhiteSpace(firstName))
