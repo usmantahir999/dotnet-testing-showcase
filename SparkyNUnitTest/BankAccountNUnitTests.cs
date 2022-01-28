@@ -76,5 +76,17 @@ namespace SparkyNUnitTest
             Assert.That(logMoq.Object.MessageWithReturnString("Hello"),Is.EqualTo(description));
             
         }
+
+        [Test]
+        public void BankLogDummy_LogMockStringOutput_ReturnsTrue()
+        {
+            var logMoq = new Mock<ILogBook>();
+            var output = "hello";
+            logMoq.Setup(u => u.LogWithOutputResult(It.IsAny<string>(), out output)).Returns(true);
+            string result = "";
+            Assert.IsTrue(logMoq.Object.LogWithOutputResult("Ben", out result));
+            Assert.That(result, Is.EqualTo(output));
+
+        }
     }
 }
