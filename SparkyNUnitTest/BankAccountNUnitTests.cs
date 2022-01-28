@@ -52,8 +52,19 @@ namespace SparkyNUnitTest
             bankAccount.Deposit(balance);
             var result = bankAccount.WithDraw(withDrawlAmount);
             Assert.IsTrue(result);
+        }
 
-
+        [Test]
+        [TestCase(200, 300)]
+        public void BankWithDraw_WithDrawl300With200Balance_ReturnsTrue(int balance, int withDrawlAmount)
+        {
+            var logMoq = new Mock<ILogBook>();
+            logMoq.Setup(u => u.LogToDb(It.IsAny<string>())).Returns(true);
+            logMoq.Setup(u => u.LogBalanceAfterWithDrawl(It.Is<int>(x => x > 0))).Returns(true);
+            BankAccount bankAccount = new BankAccount(logMoq.Object);
+            bankAccount.Deposit(balance);
+            var result = bankAccount.WithDraw(withDrawlAmount);
+            Assert.IsFalse(result);
         }
     }
 }
