@@ -66,5 +66,15 @@ namespace SparkyNUnitTest
             var result = bankAccount.WithDraw(withDrawlAmount);
             Assert.IsFalse(result);
         }
+
+        [Test]
+        public void BankLogDummy_LogMockString_ReturnsTrue()
+        {
+            var logMoq = new Mock<ILogBook>();
+            var description = "hello";
+            logMoq.Setup(u => u.MessageWithReturnString(It.IsAny<string>())).Returns((string str) => str.ToLower());
+            Assert.That(logMoq.Object.MessageWithReturnString("Hello"),Is.EqualTo(description));
+            
+        }
     }
 }
