@@ -127,5 +127,21 @@ namespace SparkyNUnitTest
             Assert.That(counter, Is.EqualTo(7));
 
         }
+
+        [Test]
+        public void BankLog_VerifyExamples()
+        {
+            var logMoq = new Mock<ILogBook>();
+            var bankAccount = new BankAccount(logMoq.Object);
+            bankAccount.Deposit(100);
+            Assert.That(bankAccount.GetBalance, Is.EqualTo(100));
+
+            //verification
+            logMoq.Verify(u => u.Message(It.IsAny<string>()), Times.Exactly(2));
+            logMoq.Verify(u => u.Message("Test"), Times.AtLeastOnce);
+            logMoq.VerifySet(u => u.LogSeverity = 101, Times.Once);
+            logMoq.VerifyGet(u => u.LogSeverity, Times.Once);
+
+        }
     }
 }
