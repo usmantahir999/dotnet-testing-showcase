@@ -113,7 +113,18 @@ namespace SparkyNUnitTest
             logMoq.Object.LogSeverity = 100;
             Assert.That(logMoq.Object.LogSeverity, Is.EqualTo(100));
             Assert.That(logMoq.Object.LogType, Is.EqualTo("warning"));
-           
+
+            //callback
+            string logTemp = "Hello, ";
+            logMoq.Setup(u => u.LogToDb(It.IsAny<string>())).Returns(true).Callback((string str) => logTemp += str);
+            logMoq.Object.LogToDb("Ben");
+            Assert.That(logTemp, Is.EqualTo("Hello, Ben"));
+
+            int counter = 5;
+            logMoq.Setup(u => u.LogToDb(It.IsAny<string>())).Returns(true).Callback(() => counter++);
+            logMoq.Object.LogToDb("Ben");
+            logMoq.Object.LogToDb("Ben");
+            Assert.That(counter, Is.EqualTo(7));
 
         }
     }
