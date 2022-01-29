@@ -88,5 +88,18 @@ namespace SparkyNUnitTest
             Assert.That(result, Is.EqualTo(output));
 
         }
+
+        [Test]
+        public void BankLogRef_ReturnsTrue()
+        {
+            var logMoq = new Mock<ILogBook>();
+            Customer customer = new();
+            Customer customerNotUsed = new();
+
+            logMoq.Setup(u => u.LogRefResult(ref customer)).Returns(true);
+            Assert.IsFalse(logMoq.Object.LogRefResult(ref customerNotUsed));
+            Assert.IsTrue(logMoq.Object.LogRefResult(ref customer));
+
+        }
     }
 }
