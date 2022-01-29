@@ -101,5 +101,20 @@ namespace SparkyNUnitTest
             Assert.IsTrue(logMoq.Object.LogRefResult(ref customer));
 
         }
+
+        [Test]
+        public void BankLogSetAndGetProperites()
+        {
+            var logMoq = new Mock<ILogBook>();
+            //Used to initiliaze properties
+            logMoq.SetupAllProperties();
+            logMoq.Setup(u => u.LogSeverity).Returns(10);
+            logMoq.Setup(u => u.LogType).Returns("warning");
+            logMoq.Object.LogSeverity = 100;
+            Assert.That(logMoq.Object.LogSeverity, Is.EqualTo(100));
+            Assert.That(logMoq.Object.LogType, Is.EqualTo("warning"));
+           
+
+        }
     }
 }
