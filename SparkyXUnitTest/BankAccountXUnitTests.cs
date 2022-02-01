@@ -65,71 +65,71 @@ namespace SparkyXUnitTest
 
         }
 
-        //[Test]
-        //public void BankLogDummy_LogMockStringOutput_ReturnsTrue()
-        //{
-        //    var logMoq = new Mock<ILogBook>();
-        //    var output = "hello";
-        //    logMoq.Setup(u => u.LogWithOutputResult(It.IsAny<string>(), out output)).Returns(true);
-        //    string result = "";
-        //    Assert.IsTrue(logMoq.Object.LogWithOutputResult("Ben", out result));
-        //    Assert.That(result, Is.EqualTo(output));
+        [Fact]
+        public void BankLogDummy_LogMockStringOutput_ReturnsTrue()
+        {
+            var logMoq = new Mock<ILogBook>();
+            var output = "hello";
+            logMoq.Setup(u => u.LogWithOutputResult(It.IsAny<string>(), out output)).Returns(true);
+            string result = "";
+            Assert.True(logMoq.Object.LogWithOutputResult("Ben", out result));
+            Assert.Equal(result, output);
 
-        //}
+        }
 
-        //[Test]
-        //public void BankLogRef_ReturnsTrue()
-        //{
-        //    var logMoq = new Mock<ILogBook>();
-        //    Customer customer = new();
-        //    Customer customerNotUsed = new();
+        [Fact]
+        public void BankLogRef_ReturnsTrue()
+        {
+            var logMoq = new Mock<ILogBook>();
+            Customer customer = new();
+            Customer customerNotUsed = new();
 
-        //    logMoq.Setup(u => u.LogRefResult(ref customer)).Returns(true);
-        //    Assert.IsFalse(logMoq.Object.LogRefResult(ref customerNotUsed));
-        //    Assert.IsTrue(logMoq.Object.LogRefResult(ref customer));
+            logMoq.Setup(u => u.LogRefResult(ref customer)).Returns(true);
+            Assert.False(logMoq.Object.LogRefResult(ref customerNotUsed));
+            Assert.True(logMoq.Object.LogRefResult(ref customer));
 
-        //}
+        }
 
-        //[Test]
-        //public void BankLogSetAndGetProperites()
-        //{
-        //    var logMoq = new Mock<ILogBook>();
-        //    //Used to initiliaze properties
-        //    logMoq.SetupAllProperties();
-        //    logMoq.Setup(u => u.LogSeverity).Returns(10);
-        //    logMoq.Setup(u => u.LogType).Returns("warning");
-        //    logMoq.Object.LogSeverity = 100;
-        //    Assert.That(logMoq.Object.LogSeverity, Is.EqualTo(100));
-        //    Assert.That(logMoq.Object.LogType, Is.EqualTo("warning"));
+        [Fact]
+        public void BankLogSetAndGetProperites()
+        {
+            var logMoq = new Mock<ILogBook>();
+            //Used to initiliaze properties
+            logMoq.SetupAllProperties();
+            logMoq.Setup(u => u.LogSeverity).Returns(10);
+            logMoq.Setup(u => u.LogType).Returns("warning");
+            logMoq.Object.LogSeverity = 100;
+            Assert.Equal(100,logMoq.Object.LogSeverity);
+            Assert.Equal("warning",logMoq.Object.LogType);
 
-        //    //callback
-        //    string logTemp = "Hello, ";
-        //    logMoq.Setup(u => u.LogToDb(It.IsAny<string>())).Returns(true).Callback((string str) => logTemp += str);
-        //    logMoq.Object.LogToDb("Ben");
-        //    Assert.That(logTemp, Is.EqualTo("Hello, Ben"));
+            //callback
+            string logTemp = "Hello, ";
+            logMoq.Setup(u => u.LogToDb(It.IsAny<string>())).Returns(true).Callback((string str) => logTemp += str);
+            logMoq.Object.LogToDb("Ben");
+            Assert.Equal("Hello, Ben", logTemp);
 
-        //    int counter = 5;
-        //    logMoq.Setup(u => u.LogToDb(It.IsAny<string>())).Returns(true).Callback(() => counter++);
-        //    logMoq.Object.LogToDb("Ben");
-        //    logMoq.Object.LogToDb("Ben");
-        //    Assert.That(counter, Is.EqualTo(7));
+            int counter = 5;
+            logMoq.Setup(u => u.LogToDb(It.IsAny<string>())).Returns(true).Callback(() => counter++);
+            logMoq.Object.LogToDb("Ben");
+            logMoq.Object.LogToDb("Ben");
+            Assert.Equal(7, counter);
 
-        //}
+        }
 
-        //[Test]
-        //public void BankLog_VerifyExamples()
-        //{
-        //    var logMoq = new Mock<ILogBook>();
-        //    var bankAccount = new BankAccount(logMoq.Object);
-        //    bankAccount.Deposit(100);
-        //    Assert.That(bankAccount.GetBalance, Is.EqualTo(100));
+        [Fact]
+        public void BankLog_VerifyExamples()
+        {
+            var logMoq = new Mock<ILogBook>();
+            var bankAccount = new BankAccount(logMoq.Object);
+            bankAccount.Deposit(100);
+            Assert.Equal(100, bankAccount.GetBalance());
 
-        //    //verification
-        //    logMoq.Verify(u => u.Message(It.IsAny<string>()), Times.Exactly(2));
-        //    logMoq.Verify(u => u.Message("Test"), Times.AtLeastOnce);
-        //    logMoq.VerifySet(u => u.LogSeverity = 101, Times.Once);
-        //    logMoq.VerifyGet(u => u.LogSeverity, Times.Once);
+            //verification
+            logMoq.Verify(u => u.Message(It.IsAny<string>()), Times.Exactly(2));
+            logMoq.Verify(u => u.Message("Test"), Times.AtLeastOnce);
+            logMoq.VerifySet(u => u.LogSeverity = 101, Times.Once);
+            logMoq.VerifyGet(u => u.LogSeverity, Times.Once);
 
-        //}
+        }
     }
 }
