@@ -90,19 +90,19 @@ namespace SparkyXUnitTest
             Assert.Equal(15.9, result, 2);
         }
 
-        //[Test]
-        //public void GetOddRange_InputMinMaxRange_ReturnValidOddNumberRange()
-        //{
-        //    //Arrange
-        //    var calculator = new Calculator();
-        //    List<int> OddExpectedRange = new List<int>() { 5, 7, 9 };
-        //    //Act
-        //    List<int> expectedResult = calculator.GetOddRange(5,10);
-        //    //Assert
-        //    Assert.That(expectedResult, Is.EquivalentTo(OddExpectedRange));
+        [Fact]
+        public void GetOddRange_InputMinMaxRange_ReturnValidOddNumberRange()
+        {
+            //Arrange
+            var calculator = new Calculator();
+            List<int> OddExpectedRange = new List<int>() { 5, 7, 9 };
+            //Act
+            List<int> expectedResult = calculator.GetOddRange(5, 10);
+            //Assert
+            Assert.Equal(expectedResult, OddExpectedRange);
 
 
-        //}
+        }
 
 
 
