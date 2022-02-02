@@ -1,0 +1,74 @@
+﻿using Bongo.DataAccess.Repository;
+using Bongo.Models.Model;
+using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bongo.DataAccess.Tests
+{
+    [TestFixture]
+    public class StudyRoomBookingRepositoryTests
+    {
+        private StudyRoomBooking _studyRoomBookingOne;
+        private StudyRoomBooking _studyRoomBookingTwo;
+
+        public StudyRoomBookingRepositoryTests()
+        {
+            _studyRoomBookingOne = new StudyRoomBooking
+            {
+                BookingId = 11,
+                Email = "utahir604@gmail.com",
+                FirstName = "usman",
+                LastName = "tahir",
+                Date = new DateTime(2022, 3, 1),
+                StudyRoomId = 1
+
+            };
+
+            _studyRoomBookingTwo = new StudyRoomBooking
+            {
+                BookingId = 12,
+                Email = "utahir604@gmail.com",
+                FirstName = "awais",
+                LastName = "raja",
+                Date = new DateTime(2022, 4, 1),
+                StudyRoomId = 2
+
+            };
+        }
+
+        [Test]
+
+        public void SaveBooking_Booking_One_CheckTheValuesFromDatabase()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(databaseName: "temp_Bongo").Options;
+
+            //act
+
+            using(var context=new ApplicationDbContext(options))
+            {
+                var repository = new StudyRoomBookingRepository(context);
+                repository.Book(_studyRoomBookingOne);
+            }
+
+            //assert
+
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                var bookingFromDb=context.StudyRoomBookings.FirstOrDefault(u => u.BookingId == 11);
+                Assert.AreEqual(_studyRoomBookingOne.BookingId, bookingFromDb.BookingId);
+                Assert.AreEqual(_studyRoomBookingOne.Email, bookingFromDb.Email);
+                Assert.AreEqual(_studyRoomBookingOne.FirstName, bookingFromDb.FirstName);
+                Assert.AreEqual(_studyRoomBookingOne.LastName, bookingFromDb.LastName);
+                Assert.AreEqual(_studyRoomBookingOne.Date, bookingFromDb.Date);
+                Assert.AreEqual(_studyRoomBookingOne.StudyRoomId, bookingFromDb.StudyRoomId);
+            }
+        }    
+    }
+}
