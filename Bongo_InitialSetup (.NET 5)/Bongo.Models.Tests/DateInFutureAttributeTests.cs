@@ -12,12 +12,20 @@ namespace Bongo.Models.Tests
     public class DateInFutureAttributeTests
     {
     
-        [Test]
-        public void DateValidator_InputeExpextedDateRange_DateValidity()
+        [TestCase(100, ExpectedResult= true)]
+        [TestCase(0, ExpectedResult= false)]
+        [TestCase(-100, ExpectedResult= false)]
+        public bool DateValidator_InputeExpextedDateRange_DateValidity(int addTime)
         {
             DateInFutureAttribute dateInFutureAttribute = new DateInFutureAttribute(()=>DateTime.Now);
-            var result = dateInFutureAttribute.IsValid(DateTime.Now.AddSeconds(100));
-            Assert.AreEqual(true, result);
+            return dateInFutureAttribute.IsValid(DateTime.Now.AddSeconds(addTime));
+        }
+
+        [Test]
+        public void DateValidator_otValidateDate_ReturnErrorMessage()
+        {
+            var result = new DateInFutureAttribute();
+            Assert.AreEqual("Date must be in the future", result.ErrorMessage);
         }
     }
    
