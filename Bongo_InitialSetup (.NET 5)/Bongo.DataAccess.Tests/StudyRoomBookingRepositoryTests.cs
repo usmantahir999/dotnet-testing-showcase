@@ -43,7 +43,7 @@ namespace Bongo.DataAccess.Tests
         }
 
         [Test]
-
+        [Order(1)]
         public void SaveBooking_Booking_One_CheckTheValuesFromDatabase()
         {
             //arrange
@@ -73,6 +73,7 @@ namespace Bongo.DataAccess.Tests
         }
 
         [Test]
+        [Order(2)]
 
         public void GetAllBooking_BookingOneAndTwo_CheckBothFromDatabase()
         {
@@ -82,6 +83,7 @@ namespace Bongo.DataAccess.Tests
 
             using (var context = new ApplicationDbContext(options))
             {
+                context.Database.EnsureDeleted();
                 var repository = new StudyRoomBookingRepository(context);
                 repository.Book(_studyRoomBookingOne);
                 repository.Book(_studyRoomBookingTwo);
