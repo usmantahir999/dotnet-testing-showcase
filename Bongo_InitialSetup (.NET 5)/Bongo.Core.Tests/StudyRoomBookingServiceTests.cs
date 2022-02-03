@@ -1,6 +1,7 @@
 ﻿using Bongo.Core.Services;
 using Bongo.DataAccess.Repository.IRepository;
 using Bongo.Models.Model;
+using Bongo.Models.Model.VM;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -15,7 +16,7 @@ namespace Bongo.Core.Tests
     public class StudyRoomBookingServiceTests
     {
         private StudyRoomBooking _request;
-        private IEnumerable<StudyRoom> _availableStudyRooms;
+        private List<StudyRoom> _availableStudyRooms;
         private Mock<IStudyRoomBookingRepository> _studyRoomBookingRepositoryMoq;
         private Mock<IStudyRoomRepository> _studyRoomRepositoryMoq;
         private StudyRoomBookingService _studyRoomBookingService;
@@ -80,6 +81,29 @@ namespace Bongo.Core.Tests
             Assert.AreEqual(_request.Date, studyRoomBooking.Date);
             Assert.AreEqual(_availableStudyRooms.First().Id, studyRoomBooking.StudyRoomId);
 
+        }
+
+        [Test]
+        public void StudyRoomBookingResultCheck_InputRequest_ValuesMatchInResult()
+        {
+            var result=_studyRoomBookingService.BookStudyRoom(_request);
+            Assert.NotNull(result);
+            Assert.AreEqual(_request.FirstName, result.FirstName);
+            Assert.AreEqual(_request.LastName, result.LastName);
+            Assert.AreEqual(_request.Email, result.Email);
+            Assert.AreEqual(_request.Date, result.Date);
+        }
+
+        [TestCase(true, ExpectedResult =StudyRoomBookingCode.Success)]
+        [TestCase(false, ExpectedResult =StudyRoomBookingCode.NoRoomAvailable)]
+
+        public StudyRoomBookingCode RoomBookingCode_RoomAvailablity_ReurnsSuccessResultCode(bool roomAvailability)
+        {
+            if (!roomAvailability)
+            {
+                _availableStudyRooms.Clear();
+            }
+            return _studyRoomBookingService.BookStudyRoom(_request).Code;
         }
     }
 }
