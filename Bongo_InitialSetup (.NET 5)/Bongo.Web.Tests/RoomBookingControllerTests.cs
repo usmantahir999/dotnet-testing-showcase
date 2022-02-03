@@ -57,5 +57,36 @@ namespace Bongo.Web.Tests
             Assert.AreEqual("No Study Room available for selected date"
                , viewResult.ViewData["Error"]);
         }
+
+        [Test]
+        public void BookRoomCheck_Successful_SuccessCodeAndRedirect()
+        {
+            //arrage
+            _studyRoomBookingService.Setup(u => u.BookStudyRoom(It.IsAny<StudyRoomBooking>()))
+                .Returns((StudyRoomBooking booking) => new StudyRoomBookingResult()
+            {
+                Code = StudyRoomBookingCode.Success,
+                FirstName = booking.FirstName,
+                LastName = booking.LastName,
+                Date = booking.Date,
+                Email = booking.Email
+            });
+
+            //act
+            var result = _roomBookingController.Book(new StudyRoomBooking()
+            {
+                Date = DateTime.Now,
+                Email = "hello@abc.com",
+                FirstName = "Hello",
+                LastName = "DotNet",
+                StudyRoomId = 1
+            });
+
+            //assert
+            Assert.IsInstanceOf<RedirectToActionResult>(result);
+            RedirectToActionResult actionResult = result as RedirectToActionResult;
+            Assert.AreEqual("Hello", actionResult.RouteValues["FirstName"]);
+            Assert.AreEqual(StudyRoomBookingCode.Success, actionResult.RouteValues["Code"]);
+        }
     }
 }
